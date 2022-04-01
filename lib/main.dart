@@ -1,5 +1,7 @@
 import 'package:diary_journals/pages/entry_info_page.dart';
 import 'package:diary_journals/pages/entry_list_page.dart';
+import 'package:diary_journals/pages/journal_info_page.dart';
+import 'package:diary_journals/pages/journal_list_page.dart';
 import 'package:diary_journals/pages/user_auth_page.dart';
 import 'package:diary_journals/pages/user_create_page.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +29,11 @@ class MyApp extends StatelessWidget {
         initialRoute: "/user",
         routes: {
           "/user": (context) => const UserAuthPage(),
-          "/user/info": (context) => const UserCreatePage(),
+          "/user/create": (context) => const UserCreatePage(),
           "/entry/list": (context) => const EntryListPage(),
           "/entry/info": (context) => const EntryInfoPage(),
+          "/journal/list": (context) => const JournalListPage(),
+          "/journal/info": (context) => const JournalInfoPage(),
         }
     );
   }

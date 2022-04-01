@@ -14,11 +14,16 @@ class _UserAuthPageState extends ConsumerState<UserAuthPage> {
   Widget build(BuildContext context) {
     final nameTextEditingController = useTextEditingController(text: "");
     final passwordTextEditingController = useTextEditingController(text: "");
+    final passwordHidden = useState<bool>(true);
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.10,
+            ),
             Center(
               child: Image.asset(
                 "assets/images/temp_logo.png",
@@ -35,6 +40,7 @@ class _UserAuthPageState extends ConsumerState<UserAuthPage> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      autocorrect: false,
                       controller: nameTextEditingController,
                       decoration: const InputDecoration(
                         icon: Icon(Icons.person),
@@ -42,10 +48,19 @@ class _UserAuthPageState extends ConsumerState<UserAuthPage> {
                       ),
                     ),
                     TextFormField(
+                      autocorrect: false,
+                      obscureText: passwordHidden.value,
                       controller: passwordTextEditingController,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.lock),
+                      decoration: InputDecoration(
+                        icon: const Icon(Icons.lock),
                         hintText: "Password",
+                        suffixIcon: GestureDetector(
+                          onTap: () =>
+                              passwordHidden.value = !passwordHidden.value,
+                          child: passwordHidden.value
+                              ? const Icon(Icons.visibility_off)
+                              : const Icon(Icons.visibility),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -56,6 +71,18 @@ class _UserAuthPageState extends ConsumerState<UserAuthPage> {
                       child: const Text("ACCESS JOURNALS"),
                     ),
                   ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.15,
+            ),
+            GestureDetector(
+              onTap: () => Navigator.of(context).pushNamed("/user/create"),
+              child: const Text(
+                "Create new user",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
                 ),
               ),
             ),
