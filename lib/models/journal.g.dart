@@ -9,6 +9,7 @@ part of 'journal.dart';
 // ignore: non_constant_identifier_names
 _$_Journal _$$_JournalFromJson(Map<String, dynamic> json) => _$_Journal(
       id: json['id'] as String,
+      userId: json['userId'] as String,
       name: json['name'] as String,
       isPrivate: json['isPrivate'] as bool,
       colorValue: json['colorValue'] as int,
@@ -19,6 +20,7 @@ _$_Journal _$$_JournalFromJson(Map<String, dynamic> json) => _$_Journal(
 Map<String, dynamic> _$$_JournalToJson(_$_Journal instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'userId': instance.userId,
       'name': instance.name,
       'isPrivate': instance.isPrivate,
       'colorValue': instance.colorValue,

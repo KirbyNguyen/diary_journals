@@ -4,9 +4,12 @@ part 'journal.freezed.dart';
 part 'journal.g.dart';
 
 @freezed
-abstract class Journal with _$Journal {
-  const factory Journal({
+class Journal with _$Journal {
+  const Journal._();
+
+  factory Journal({
     required String id,
+    required String userId,
     required String name,
     required bool isPrivate,
     required int colorValue,
