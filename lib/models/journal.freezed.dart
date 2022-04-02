@@ -24,12 +24,14 @@ class _$JournalTearOff {
 
   _Journal call(
       {required String id,
+      required String userId,
       required String name,
       required bool isPrivate,
       required int colorValue,
       String? password}) {
     return _Journal(
       id: id,
+      userId: userId,
       name: name,
       isPrivate: isPrivate,
       colorValue: colorValue,
@@ -48,6 +50,7 @@ const $Journal = _$JournalTearOff();
 /// @nodoc
 mixin _$Journal {
   String get id => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   bool get isPrivate => throw _privateConstructorUsedError;
   int get colorValue => throw _privateConstructorUsedError;
@@ -64,6 +67,7 @@ abstract class $JournalCopyWith<$Res> {
       _$JournalCopyWithImpl<$Res>;
   $Res call(
       {String id,
+      String userId,
       String name,
       bool isPrivate,
       int colorValue,
@@ -81,6 +85,7 @@ class _$JournalCopyWithImpl<$Res> implements $JournalCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
+    Object? userId = freezed,
     Object? name = freezed,
     Object? isPrivate = freezed,
     Object? colorValue = freezed,
@@ -90,6 +95,10 @@ class _$JournalCopyWithImpl<$Res> implements $JournalCopyWith<$Res> {
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       name: name == freezed
           ? _value.name
@@ -118,6 +127,7 @@ abstract class _$JournalCopyWith<$Res> implements $JournalCopyWith<$Res> {
   @override
   $Res call(
       {String id,
+      String userId,
       String name,
       bool isPrivate,
       int colorValue,
@@ -136,6 +146,7 @@ class __$JournalCopyWithImpl<$Res> extends _$JournalCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? userId = freezed,
     Object? name = freezed,
     Object? isPrivate = freezed,
     Object? colorValue = freezed,
@@ -145,6 +156,10 @@ class __$JournalCopyWithImpl<$Res> extends _$JournalCopyWithImpl<$Res>
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       name: name == freezed
           ? _value.name
@@ -168,19 +183,23 @@ class __$JournalCopyWithImpl<$Res> extends _$JournalCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Journal implements _Journal {
-  const _$_Journal(
+class _$_Journal extends _Journal {
+  _$_Journal(
       {required this.id,
+      required this.userId,
       required this.name,
       required this.isPrivate,
       required this.colorValue,
-      this.password});
+      this.password})
+      : super._();
 
   factory _$_Journal.fromJson(Map<String, dynamic> json) =>
       _$$_JournalFromJson(json);
 
   @override
   final String id;
+  @override
+  final String userId;
   @override
   final String name;
   @override
@@ -192,7 +211,7 @@ class _$_Journal implements _Journal {
 
   @override
   String toString() {
-    return 'Journal(id: $id, name: $name, isPrivate: $isPrivate, colorValue: $colorValue, password: $password)';
+    return 'Journal(id: $id, userId: $userId, name: $name, isPrivate: $isPrivate, colorValue: $colorValue, password: $password)';
   }
 
   @override
@@ -201,6 +220,7 @@ class _$_Journal implements _Journal {
         (other.runtimeType == runtimeType &&
             other is _Journal &&
             const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.userId, userId) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.isPrivate, isPrivate) &&
             const DeepCollectionEquality()
@@ -212,6 +232,7 @@ class _$_Journal implements _Journal {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(userId),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(isPrivate),
       const DeepCollectionEquality().hash(colorValue),
@@ -228,18 +249,22 @@ class _$_Journal implements _Journal {
   }
 }
 
-abstract class _Journal implements Journal {
-  const factory _Journal(
+abstract class _Journal extends Journal {
+  factory _Journal(
       {required String id,
+      required String userId,
       required String name,
       required bool isPrivate,
       required int colorValue,
       String? password}) = _$_Journal;
+  _Journal._() : super._();
 
   factory _Journal.fromJson(Map<String, dynamic> json) = _$_Journal.fromJson;
 
   @override
   String get id;
+  @override
+  String get userId;
   @override
   String get name;
   @override
