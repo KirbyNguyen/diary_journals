@@ -10,22 +10,19 @@ final entrydatabaseProvider =
 });
 
 class EntryDatabaseHelper with ChangeNotifier {
-  late Database database;
-
-  EntryDatabaseHelper() {
-    database = DatabaseHelper.database!;
-  }
 
   Future<List<Map<String, Object?>>> getAll() async {
-    return await database.query(
+    final Database? database = await DatabaseHelper.instance.database;
+    return await database!.query(
       DatabaseHelper.entryTableName,
     );
   }
 
   Future<int> deleteEntry(String id) async {
-    int result = await database.delete(
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.delete(
       DatabaseHelper.entryTableName,
-      where: 'id = ?',
+      where: "id = ?",
       whereArgs: [id],
     );
 
@@ -35,15 +32,17 @@ class EntryDatabaseHelper with ChangeNotifier {
   }
 
   Future<List<Map<String, Object?>>> getEntry(String id) async {
-    return await database.query(
+    final Database? database = await DatabaseHelper.instance.database;
+    return await database!.query(
       DatabaseHelper.entryTableName,
-      where: 'id = ?',
+      where: "id = ?",
       whereArgs: [id],
     );
   }
 
   Future<int> insertEntry(Entry entry) async {
-    int result = await database.insert(
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.insert(
       DatabaseHelper.entryTableName,
       entry.toJson(),
     );
@@ -54,10 +53,11 @@ class EntryDatabaseHelper with ChangeNotifier {
   }
 
   Future<int> updateJournal(Entry entry) async {
-    int result = await database.update(
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.update(
       DatabaseHelper.entryTableName,
       entry.toJson(),
-      where: 'id = ?',
+      where: "id = ?",
       whereArgs: [entry.id],
     );
 

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:diary_journals/databases/database_helper.dart';
-
 import 'package:diary_journals/pages/entry_info_page.dart';
 import 'package:diary_journals/pages/entry_list_page.dart';
 import 'package:diary_journals/pages/journal_info_page.dart';
@@ -12,7 +10,7 @@ import 'package:diary_journals/pages/user_create_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseHelper().initDatabase();
+  
   runApp(
     const ProviderScope(
       child: MyApp(),

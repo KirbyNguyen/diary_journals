@@ -1,17 +1,17 @@
+import 'package:diary_journals/databases/user_database.dart';
+import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
+import 'package:diary_journals/models/user.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class UserCreatePage extends StatefulHookConsumerWidget {
+class UserCreatePage extends HookConsumerWidget {
   const UserCreatePage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _UserCreatePageState();
-}
-
-class _UserCreatePageState extends ConsumerState<UserCreatePage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userCreateFormKey =
+        useState<GlobalKey<FormState>>(GlobalKey<FormState>());
     final nameTextEditingController = useTextEditingController(text: "");
     final passwordTextEditingController = useTextEditingController(text: "");
     final confirmPasswordTextEditingController =
@@ -42,6 +42,7 @@ class _UserCreatePageState extends ConsumerState<UserCreatePage> {
                 horizontal: MediaQuery.of(context).size.width * 0.085,
               ),
               child: Form(
+                key: userCreateFormKey.value,
                 child: Column(
                   children: <Widget>[
                     TextFormField(
@@ -51,6 +52,12 @@ class _UserCreatePageState extends ConsumerState<UserCreatePage> {
                         icon: Icon(Icons.person),
                         hintText: "Name",
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     TextFormField(
                       autocorrect: false,
@@ -67,6 +74,12 @@ class _UserCreatePageState extends ConsumerState<UserCreatePage> {
                               : const Icon(Icons.visibility),
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     TextFormField(
                       autocorrect: false,
@@ -83,13 +96,39 @@ class _UserCreatePageState extends ConsumerState<UserCreatePage> {
                               : const Icon(Icons.visibility),
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        if (value != passwordTextEditingController.text) {
+                          return 'Please make sure this field is the same as password';
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
                       child: const Text("CREATE USER"),
+                      onPressed: () async {
+                        if (userCreateFormKey.value.currentState!.validate()) {
+                          User newUser = User(
+                            id: const Uuid().v4(),
+                            name: nameTextEditingController.text,
+                            password: passwordTextEditingController.text,
+                          );
+
+                          try {
+                            int result = await ref
+                                .read(userdatabaseProvider)
+                                .insertUser(newUser);
+                            print(result);
+                          } catch (error) {
+                            print(error);
+                          }
+                        }
+                      },
                     ),
                   ],
                 ),

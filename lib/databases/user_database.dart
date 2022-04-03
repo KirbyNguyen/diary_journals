@@ -9,20 +9,16 @@ final userdatabaseProvider = ChangeNotifierProvider<UserDatabaseHelper>((ref) {
 });
 
 class UserDatabaseHelper with ChangeNotifier {
-  late Database database;
-
-  UserDatabaseHelper() {
-    database = DatabaseHelper.database!;
-  }
-
   Future<List<Map<String, Object?>>> getAll() async {
-    return await database.query(
+    final Database? database = await DatabaseHelper.instance.database;
+    return await database!.query(
       DatabaseHelper.userTableName,
     );
   }
 
   Future<int> deleteUser(String id) async {
-    int result = await database.delete(
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.delete(
       DatabaseHelper.userTableName,
       where: 'id = ?',
       whereArgs: [id],
@@ -33,16 +29,31 @@ class UserDatabaseHelper with ChangeNotifier {
     return result;
   }
 
-  Future<List<Map<String, Object?>>> getUser(String id) async {
-    return await database.query(
+  Future<Map<String, Object?>> getUser(String id) async {
+    final Database? database = await DatabaseHelper.instance.database;
+    List<Map<String, Object?>> userList = await database!.query(
       DatabaseHelper.userTableName,
-      where: 'id = ?',
+      where: "id = ?",
       whereArgs: [id],
     );
+
+    return userList.first;
+  }
+
+  Future<Map<String, Object?>> authUser(String name, String password) async {
+    final Database? database = await DatabaseHelper.instance.database;
+    List<Map<String, Object?>> userList = await database!.query(
+      DatabaseHelper.userTableName,
+      where: 'name = ? AND password = ?',
+      whereArgs: [name, password],
+    );
+
+    return userList.first;
   }
 
   Future<int> insertUser(User user) async {
-    int result = await database.insert(
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.insert(
       DatabaseHelper.userTableName,
       user.toJson(),
     );
@@ -53,10 +64,11 @@ class UserDatabaseHelper with ChangeNotifier {
   }
 
   Future<int> updateUser(User user) async {
-    int result = await database.update(
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.update(
       DatabaseHelper.userTableName,
       user.toJson(),
-      where: 'id = ?',
+      where: "id = ?",
       whereArgs: [user.id],
     );
 

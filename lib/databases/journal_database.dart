@@ -10,20 +10,17 @@ final journaldatabaseProvider =
 });
 
 class JournalDatabaseHelper with ChangeNotifier {
-  late Database database;
-
-  JournalDatabaseHelper() {
-    database = DatabaseHelper.database!;
-  }
 
   Future<List<Map<String, Object?>>> getAll() async {
-    return await database.query(
+    final Database? database = await DatabaseHelper.instance.database;
+    return await database!.query(
       DatabaseHelper.journalTableName,
     );
   }
 
   Future<int> deleteJournal(String id) async {
-    int result = await database.delete(
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.delete(
       DatabaseHelper.journalTableName,
       where: 'id = ?',
       whereArgs: [id],
@@ -34,16 +31,20 @@ class JournalDatabaseHelper with ChangeNotifier {
     return result;
   }
 
-  Future<List<Map<String, Object?>>> getJournal(String id) async {
-    return await database.query(
+  Future<Map<String, Object?>> getJournal(String id) async {
+    final Database? database = await DatabaseHelper.instance.database;
+    List<Map<String, Object?>> journalList = await database!.query(
       DatabaseHelper.journalTableName,
-      where: 'id = ?',
+      where: "id = ?",
       whereArgs: [id],
     );
+
+    return journalList.first;
   }
 
   Future<int> insertJournal(Journal journal) async {
-    int result = await database.insert(
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.insert(
       DatabaseHelper.journalTableName,
       journal.toJson(),
     );
@@ -54,10 +55,11 @@ class JournalDatabaseHelper with ChangeNotifier {
   }
 
   Future<int> updateJournal(Journal journal) async {
-    int result = await database.update(
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.update(
       DatabaseHelper.journalTableName,
       journal.toJson(),
-      where: 'id = ?',
+      where: "id = ?",
       whereArgs: [journal.id],
     );
 

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:diary_journals/models/user.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:diary_journals/databases/user_database.dart';
 
-class UserAuthPage extends StatefulHookConsumerWidget {
+class UserAuthPage extends HookConsumerWidget {
   const UserAuthPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _UserAuthPageState();
-}
-
-class _UserAuthPageState extends ConsumerState<UserAuthPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userAuthFormKey =
+        useState<GlobalKey<FormState>>(GlobalKey<FormState>());
     final nameTextEditingController = useTextEditingController(text: "");
     final passwordTextEditingController = useTextEditingController(text: "");
     final passwordHidden = useState<bool>(true);
@@ -37,6 +36,7 @@ class _UserAuthPageState extends ConsumerState<UserAuthPage> {
                 horizontal: MediaQuery.of(context).size.width * 0.085,
               ),
               child: Form(
+                key: userAuthFormKey.value,
                 child: Column(
                   children: <Widget>[
                     TextFormField(
@@ -46,6 +46,12 @@ class _UserAuthPageState extends ConsumerState<UserAuthPage> {
                         icon: Icon(Icons.person),
                         hintText: "Name",
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     TextFormField(
                       autocorrect: false,
@@ -62,13 +68,37 @@ class _UserAuthPageState extends ConsumerState<UserAuthPage> {
                               : const Icon(Icons.visibility),
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
                       child: const Text("ACCESS JOURNALS"),
+                      onPressed: () async {
+                        if (userAuthFormKey.value.currentState!.validate()) {
+                          try {
+                            dynamic result =
+                                await ref.read(userdatabaseProvider).authUser(
+                                      nameTextEditingController.text,
+                                      passwordTextEditingController.text,
+                                    );
+                            if (result != null) {
+                              User currentUser = User.fromJson(result);
+                              print(currentUser.toString());
+                            } else {
+                              print("USER AUTHENTICATION FAILS");
+                            }
+                          } catch (error) {
+                            print(error);
+                          }
+                        }
+                      },
                     ),
                   ],
                 ),
