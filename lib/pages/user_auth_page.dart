@@ -1,8 +1,9 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+import 'package:diary_journals/controllers/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:diary_journals/models/user.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:diary_journals/databases/user_database.dart';
 
 class UserAuthPage extends HookConsumerWidget {
   const UserAuthPage({Key? key}) : super(key: key);
@@ -82,21 +83,17 @@ class UserAuthPage extends HookConsumerWidget {
                       child: const Text("ACCESS JOURNALS"),
                       onPressed: () async {
                         if (userAuthFormKey.value.currentState!.validate()) {
-                          try {
-                            dynamic result =
-                                await ref.read(userdatabaseProvider).authUser(
-                                      nameTextEditingController.text,
-                                      passwordTextEditingController.text,
-                                    );
-                            if (result != null) {
-                              User currentUser = User.fromJson(result);
-                              print(currentUser.toString());
-                            } else {
-                              print("USER AUTHENTICATION FAILS");
-                            }
-                          } catch (error) {
-                            print(error);
-                          }
+                          List<int> encodedName =
+                              utf8.encode(nameTextEditingController.text);
+                          Digest hashedName = sha1.convert(encodedName);
+                          List<int> encodedPassword =
+                              utf8.encode(passwordTextEditingController.text);
+                          Digest hashedPassword = sha1.convert(encodedPassword);
+
+                          ref.watch(userProvider.notifier).authUser(
+                                hashedName.toString(),
+                                hashedPassword.toString(),
+                              );
                         }
                       },
                     ),

@@ -4,7 +4,7 @@ import 'package:diary_journals/models/user.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:diary_journals/databases/database_helper.dart';
 
-final userdatabaseProvider = ChangeNotifierProvider<UserDatabaseHelper>((ref) {
+final userDatabaseProvider = ChangeNotifierProvider<UserDatabaseHelper>((ref) {
   return UserDatabaseHelper();
 });
 

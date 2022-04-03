@@ -1,9 +1,12 @@
-import 'package:diary_journals/databases/user_database.dart';
+import 'dart:convert';
 import 'package:uuid/uuid.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:diary_journals/models/user.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:diary_journals/models/user.dart';
+import 'package:diary_journals/controllers/user_provider.dart';
 
 class UserCreatePage extends HookConsumerWidget {
   const UserCreatePage({Key? key}) : super(key: key);
@@ -113,19 +116,23 @@ class UserCreatePage extends HookConsumerWidget {
                       child: const Text("CREATE USER"),
                       onPressed: () async {
                         if (userCreateFormKey.value.currentState!.validate()) {
+                          List<int> encodedName =
+                              utf8.encode(nameTextEditingController.text);
+                          Digest hashedName = sha1.convert(encodedName);
+                          List<int> encodedPassword =
+                              utf8.encode(passwordTextEditingController.text);
+                          Digest hashedPassword = sha1.convert(encodedPassword);
+
                           User newUser = User(
                             id: const Uuid().v4(),
-                            name: nameTextEditingController.text,
-                            password: passwordTextEditingController.text,
+                            name: hashedName.toString(),
+                            password: hashedPassword.toString(),
                           );
 
-                          try {
-                            int result = await ref
-                                .read(userdatabaseProvider)
-                                .insertUser(newUser);
-                            print(result);
-                          } catch (error) {
-                            print(error);
+                          ref.watch(userProvider.notifier).createUser(newUser);
+
+                          if (ref.watch(userProvider) != null) {
+                            Navigator.of(context).pop();
                           }
                         }
                       },

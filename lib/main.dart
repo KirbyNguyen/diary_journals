@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:diary_journals/app_wrapper.dart';
+
 import 'package:diary_journals/pages/entry_info_page.dart';
 import 'package:diary_journals/pages/entry_list_page.dart';
 import 'package:diary_journals/pages/journal_info_page.dart';
@@ -29,8 +31,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: "/user",
+        initialRoute: "/",
         routes: {
+          "/": (context) => const AppWrapper(),
           "/user": (context) => const UserAuthPage(),
           "/user/create": (context) => const UserCreatePage(),
           "/entry/list": (context) => const EntryListPage(),

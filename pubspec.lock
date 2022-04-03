@@ -149,7 +149,7 @@ packages:
     source: hosted
     version: "3.0.1"
   crypto:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: crypto
       url: "https://pub.dartlang.org"
@@ -270,13 +270,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  hash:
-    dependency: "direct main"
-    description:
-      name: hash
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   hooks_riverpod:
     dependency: "direct main"
     description:
