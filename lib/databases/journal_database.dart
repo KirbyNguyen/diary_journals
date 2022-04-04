@@ -10,7 +10,6 @@ final journalDatabaseProvider =
 });
 
 class JournalDatabaseHelper with ChangeNotifier {
-
   Future<List<Map<String, Object?>>> getAllJournal() async {
     final Database? database = await DatabaseHelper.instance.database;
     return await database!.query(
@@ -22,7 +21,7 @@ class JournalDatabaseHelper with ChangeNotifier {
     final Database? database = await DatabaseHelper.instance.database;
     return await database!.query(
       DatabaseHelper.journalTableName,
-      where: "uid = ?",
+      where: "userId = ?",
       whereArgs: [uid],
     );
   }
@@ -44,7 +43,7 @@ class JournalDatabaseHelper with ChangeNotifier {
     final Database? database = await DatabaseHelper.instance.database;
     int result = await database!.delete(
       DatabaseHelper.journalTableName,
-      where: 'uid = ?',
+      where: 'userId = ?',
       whereArgs: [uid],
     );
 

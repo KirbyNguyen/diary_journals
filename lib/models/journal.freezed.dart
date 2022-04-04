@@ -26,7 +26,7 @@ class _$JournalTearOff {
       {required String id,
       required String userId,
       required String name,
-      required bool isPrivate,
+      required int isPrivate,
       required int colorValue,
       String? password}) {
     return _Journal(
@@ -52,7 +52,7 @@ mixin _$Journal {
   String get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  bool get isPrivate => throw _privateConstructorUsedError;
+  int get isPrivate => throw _privateConstructorUsedError;
   int get colorValue => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
 
@@ -69,7 +69,7 @@ abstract class $JournalCopyWith<$Res> {
       {String id,
       String userId,
       String name,
-      bool isPrivate,
+      int isPrivate,
       int colorValue,
       String? password});
 }
@@ -107,7 +107,7 @@ class _$JournalCopyWithImpl<$Res> implements $JournalCopyWith<$Res> {
       isPrivate: isPrivate == freezed
           ? _value.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int,
       colorValue: colorValue == freezed
           ? _value.colorValue
           : colorValue // ignore: cast_nullable_to_non_nullable
@@ -129,7 +129,7 @@ abstract class _$JournalCopyWith<$Res> implements $JournalCopyWith<$Res> {
       {String id,
       String userId,
       String name,
-      bool isPrivate,
+      int isPrivate,
       int colorValue,
       String? password});
 }
@@ -168,7 +168,7 @@ class __$JournalCopyWithImpl<$Res> extends _$JournalCopyWithImpl<$Res>
       isPrivate: isPrivate == freezed
           ? _value.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int,
       colorValue: colorValue == freezed
           ? _value.colorValue
           : colorValue // ignore: cast_nullable_to_non_nullable
@@ -203,7 +203,7 @@ class _$_Journal extends _Journal {
   @override
   final String name;
   @override
-  final bool isPrivate;
+  final int isPrivate;
   @override
   final int colorValue;
   @override
@@ -254,7 +254,7 @@ abstract class _Journal extends Journal {
       {required String id,
       required String userId,
       required String name,
-      required bool isPrivate,
+      required int isPrivate,
       required int colorValue,
       String? password}) = _$_Journal;
   _Journal._() : super._();
@@ -268,7 +268,7 @@ abstract class _Journal extends Journal {
   @override
   String get name;
   @override
-  bool get isPrivate;
+  int get isPrivate;
   @override
   int get colorValue;
   @override

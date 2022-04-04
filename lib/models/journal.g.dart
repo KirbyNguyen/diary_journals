@@ -11,7 +11,7 @@ _$_Journal _$$_JournalFromJson(Map<String, dynamic> json) => _$_Journal(
       id: json['id'] as String,
       userId: json['userId'] as String,
       name: json['name'] as String,
-      isPrivate: json['isPrivate'] as bool,
+      isPrivate: json['isPrivate'] as int,
       colorValue: json['colorValue'] as int,
       password: json['password'] as String?,
     );

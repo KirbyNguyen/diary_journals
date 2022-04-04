@@ -1,3 +1,4 @@
+import 'package:diary_journals/controllers/journal_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -24,7 +25,7 @@ class EntryListPage extends HookConsumerWidget {
           )
         ],
       ),
-      body: const Text("Text"),
+      body: Text(ref.watch(journalController).length.toString()),
     );
   }
 }

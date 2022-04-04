@@ -11,7 +11,7 @@ class Journal with _$Journal {
     required String id,
     required String userId,
     required String name,
-    required bool isPrivate,
+    required int isPrivate,
     required int colorValue,
     String? password,
   }) = _Journal;

@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
-import 'package:diary_journals/controllers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:diary_journals/controllers/journal_controller.dart';
+import 'package:diary_journals/controllers/user_controller.dart';
 
 class UserAuthPage extends HookConsumerWidget {
   const UserAuthPage({Key? key}) : super(key: key);
@@ -81,7 +83,7 @@ class UserAuthPage extends HookConsumerWidget {
                     ),
                     ElevatedButton(
                       child: const Text("ACCESS JOURNALS"),
-                      onPressed: () async {
+                      onPressed: () {
                         if (userAuthFormKey.value.currentState!.validate()) {
                           List<int> encodedName =
                               utf8.encode(nameTextEditingController.text);
@@ -89,8 +91,8 @@ class UserAuthPage extends HookConsumerWidget {
                           List<int> encodedPassword =
                               utf8.encode(passwordTextEditingController.text);
                           Digest hashedPassword = sha1.convert(encodedPassword);
-
-                          ref.watch(userProvider.notifier).authUser(
+                          
+                          ref.watch(userController.notifier).authUser(
                                 hashedName.toString(),
                                 hashedPassword.toString(),
                               );

@@ -2,7 +2,7 @@ import 'package:diary_journals/databases/user_database.dart';
 import 'package:diary_journals/models/user.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userProvider = StateNotifierProvider<UserProvider, User?>(
+final userController = StateNotifierProvider<UserProvider, User?>(
   (ref) => UserProvider(ref: ref),
 );
 
@@ -26,6 +26,14 @@ class UserProvider extends StateNotifier<User?> {
     }
   }
 
+  void logoutUser() async {
+    try {
+      state = null;
+    } catch (error) {
+      // print(error);
+    }
+  }
+
   void createUser(User currentUser) async {
     try {
       dynamic result =
@@ -36,6 +44,15 @@ class UserProvider extends StateNotifier<User?> {
         state = null;
         // print("USER AUTHENTICATION FAILS");
       }
+    } catch (error) {
+      // print(error);
+    }
+  }
+
+  void deleteUser(String id) async {
+    try {
+      await ref.read(userDatabaseProvider).deleteUser(id);
+      state = null;
     } catch (error) {
       // print(error);
     }

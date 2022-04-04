@@ -1,8 +1,11 @@
+import 'package:diary_journals/controllers/journal_controller.dart';
+import 'package:diary_journals/controllers/user_controller.dart';
 import 'package:diary_journals/models/journal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 class JournalInfoPage extends HookConsumerWidget {
   final Journal? journal;
@@ -13,8 +16,11 @@ class JournalInfoPage extends HookConsumerWidget {
         useState<GlobalKey<FormState>>(GlobalKey<FormState>());
     final nameTextEditingController =
         useTextEditingController(text: journal != null ? journal!.name : "");
-    final isPrivate =
-        useState<bool>(journal != null ? journal!.isPrivate : false);
+    final isPrivate = useState<bool>(journal != null
+        ? journal!.isPrivate == 0
+            ? false
+            : true
+        : false);
     final passwordTextEditingController = useTextEditingController(
         text: journal != null ? journal!.password : "");
     final passwordHidden = useState<bool>(true);
@@ -83,9 +89,12 @@ class JournalInfoPage extends HookConsumerWidget {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                    if (isPrivate.value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
                     }
+
                     return null;
                   },
                 ),
@@ -127,7 +136,30 @@ class JournalInfoPage extends HookConsumerWidget {
                   style: ElevatedButton.styleFrom(
                     primary: journal != null ? Colors.orange : Colors.blue,
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (journalInfoKey.value.currentState!.validate()) {
+                      if (journal != null) {
+                        ref
+                            .watch(journalController.notifier)
+                            .updateJournal(journal!);
+                      } else {
+                        Journal newJournal = Journal(
+                          id: const Uuid().v4(),
+                          userId: ref.read(userController)!.id,
+                          name: nameTextEditingController.text,
+                          isPrivate: isPrivate.value ? 1 : 0,
+                          colorValue: currentColor.value.value,
+                          password: passwordTextEditingController.text.isEmpty
+                              ? null
+                              : passwordTextEditingController.text,
+                        );
+                        ref
+                            .watch(journalController.notifier)
+                            .addJournal(newJournal);
+                      }
+                      Navigator.of(context).pop();
+                    }
+                  },
                 )
               ],
             ),

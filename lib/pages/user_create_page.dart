@@ -6,7 +6,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:diary_journals/models/user.dart';
-import 'package:diary_journals/controllers/user_provider.dart';
+import 'package:diary_journals/controllers/user_controller.dart';
+import 'package:diary_journals/controllers/journal_controller.dart';
 
 class UserCreatePage extends HookConsumerWidget {
   const UserCreatePage({Key? key}) : super(key: key);
@@ -114,7 +115,7 @@ class UserCreatePage extends HookConsumerWidget {
                     ),
                     ElevatedButton(
                       child: const Text("CREATE USER"),
-                      onPressed: () async {
+                      onPressed: () {
                         if (userCreateFormKey.value.currentState!.validate()) {
                           List<int> encodedName =
                               utf8.encode(nameTextEditingController.text);
@@ -129,11 +130,11 @@ class UserCreatePage extends HookConsumerWidget {
                             password: hashedPassword.toString(),
                           );
 
-                          ref.watch(userProvider.notifier).createUser(newUser);
+                          ref
+                              .watch(userController.notifier)
+                              .createUser(newUser);
 
-                          if (ref.watch(userProvider) != null) {
-                            Navigator.of(context).pop();
-                          }
+                          Navigator.of(context).pop();
                         }
                       },
                     ),

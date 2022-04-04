@@ -2,7 +2,7 @@ import 'package:diary_journals/databases/journal_database.dart';
 import 'package:diary_journals/models/journal.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final journalProvider = StateNotifierProvider<JournalProvider, List<Journal>>(
+final journalController = StateNotifierProvider<JournalProvider, List<Journal>>(
   (ref) => JournalProvider(ref: ref),
 );
 
@@ -14,7 +14,6 @@ class JournalProvider extends StateNotifier<List<Journal>> {
     try {
       List<Map<String, Object?>> result =
           await ref.watch(journalDatabaseProvider).getAllUserJournal(uid);
-
       for (var temp in result) {
         Journal tempJournal = Journal.fromJson(temp);
         state = [...state, tempJournal];
@@ -58,7 +57,10 @@ class JournalProvider extends StateNotifier<List<Journal>> {
   void deleteJournal(String id) async {
     try {
       await ref.watch(journalDatabaseProvider).deleteJournal(id);
-      state.removeWhere((element) => element.id == id);
+      state = [
+        for (final journal in state)
+          if (journal.id != id) journal,
+      ];
     } catch (error) {
       // print(error);
     }
