@@ -4,17 +4,26 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:diary_journals/models/journal.dart';
 import 'package:diary_journals/databases/database_helper.dart';
 
-final journaldatabaseProvider =
+final journalDatabaseProvider =
     ChangeNotifierProvider<JournalDatabaseHelper>((ref) {
   return JournalDatabaseHelper();
 });
 
 class JournalDatabaseHelper with ChangeNotifier {
 
-  Future<List<Map<String, Object?>>> getAll() async {
+  Future<List<Map<String, Object?>>> getAllJournal() async {
     final Database? database = await DatabaseHelper.instance.database;
     return await database!.query(
       DatabaseHelper.journalTableName,
+    );
+  }
+
+  Future<List<Map<String, Object?>>> getAllUserJournal(String uid) async {
+    final Database? database = await DatabaseHelper.instance.database;
+    return await database!.query(
+      DatabaseHelper.journalTableName,
+      where: "uid = ?",
+      whereArgs: [uid],
     );
   }
 
@@ -24,6 +33,19 @@ class JournalDatabaseHelper with ChangeNotifier {
       DatabaseHelper.journalTableName,
       where: 'id = ?',
       whereArgs: [id],
+    );
+
+    notifyListeners();
+
+    return result;
+  }
+
+  Future<int> deleteAllUserJournal(String uid) async {
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.delete(
+      DatabaseHelper.journalTableName,
+      where: 'uid = ?',
+      whereArgs: [uid],
     );
 
     notifyListeners();
