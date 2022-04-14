@@ -1,3 +1,4 @@
+import 'package:diary_journals/pages/journal_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -46,7 +47,16 @@ class JournalListPage extends ConsumerWidget {
                   label: "Delete",
                 ),
                 SlidableAction(
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.push<void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => JournalInfoPage(
+                          journal: ref.watch(journalController)[index],
+                        ),
+                      ),
+                    );
+                  },
                   backgroundColor: const Color.fromARGB(255, 255, 196, 0),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
@@ -69,7 +79,16 @@ class JournalListPage extends ConsumerWidget {
                   label: "Delete",
                 ),
                 SlidableAction(
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.push<void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => JournalInfoPage(
+                          journal: ref.watch(journalController)[index],
+                        ),
+                      ),
+                    );
+                  },
                   backgroundColor: const Color.fromARGB(255, 255, 196, 0),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,

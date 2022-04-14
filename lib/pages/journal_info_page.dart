@@ -139,9 +139,17 @@ class JournalInfoPage extends HookConsumerWidget {
                   onPressed: () async {
                     if (journalInfoKey.value.currentState!.validate()) {
                       if (journal != null) {
+                        Journal newJournal = journal!.copyWith(
+                          name: nameTextEditingController.text,
+                          isPrivate: isPrivate.value ? 1 : 0,
+                          colorValue: currentColor.value.value,
+                          password: passwordTextEditingController.text.isEmpty
+                              ? null
+                              : passwordTextEditingController.text,
+                        );
                         ref
                             .watch(journalController.notifier)
-                            .updateJournal(journal!);
+                            .updateJournal(newJournal);
                       } else {
                         Journal newJournal = Journal(
                           id: const Uuid().v4(),
