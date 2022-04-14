@@ -23,6 +23,10 @@ class JournalProvider extends StateNotifier<List<Journal>> {
     }
   }
 
+  void journalEmpty() {
+    state = [];
+  }
+
   void journalDispose(String uid) async {
     try {
       await ref.watch(journalDatabaseProvider).deleteAllUserJournal(uid);

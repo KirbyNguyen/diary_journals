@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:diary_journals/models/user.dart';
 import 'package:diary_journals/controllers/user_controller.dart';
-import 'package:diary_journals/controllers/journal_controller.dart';
 
 class UserCreatePage extends HookConsumerWidget {
   const UserCreatePage({Key? key}) : super(key: key);
