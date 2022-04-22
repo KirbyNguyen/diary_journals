@@ -4,8 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:diary_journals/app_wrapper.dart';
 
 import 'package:diary_journals/pages/settings_page.dart';
-import 'package:diary_journals/pages/entry_info_page.dart';
-import 'package:diary_journals/pages/entry_list_page.dart';
 import 'package:diary_journals/pages/journal_info_page.dart';
 import 'package:diary_journals/pages/journal_list_page.dart';
 import 'package:diary_journals/pages/user_auth_page.dart';
@@ -38,8 +36,6 @@ class MyApp extends StatelessWidget {
           "/settings": (context) => const SettingsPage(),
           "/user/auth": (context) => const UserAuthPage(),
           "/user/create": (context) => const UserCreatePage(),
-          "/entry/list": (context) => const EntryListPage(),
-          "/entry/info": (context) => const EntryInfoPage(),
           "/journal/list": (context) => const JournalListPage(),
           "/journal/info": (context) => const JournalInfoPage(),
         });

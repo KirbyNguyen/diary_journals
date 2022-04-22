@@ -13,7 +13,8 @@ class JournalProvider extends StateNotifier<List<Journal>> {
   void journalInit(String uid) async {
     try {
       List<Map<String, Object?>> result =
-          await ref.watch(journalDatabaseProvider).getAllUserJournal(uid);
+          await ref.read(journalDatabaseProvider).getAllUserJournal(uid);
+      state = [];
       for (var temp in result) {
         Journal tempJournal = Journal.fromJson(temp);
         state = [...state, tempJournal];
@@ -29,7 +30,7 @@ class JournalProvider extends StateNotifier<List<Journal>> {
 
   void journalDispose(String uid) async {
     try {
-      await ref.watch(journalDatabaseProvider).deleteAllUserJournal(uid);
+      await ref.read(journalDatabaseProvider).deleteAllUserJournal(uid);
       state = [];
     } catch (error) {
       // print(error);
@@ -39,7 +40,7 @@ class JournalProvider extends StateNotifier<List<Journal>> {
   void addJournal(Journal journal) async {
     try {
       int result =
-          await ref.watch(journalDatabaseProvider).insertJournal(journal);
+          await ref.read(journalDatabaseProvider).insertJournal(journal);
       if (result != 0) {
         state = [...state, journal];
       }
@@ -50,7 +51,7 @@ class JournalProvider extends StateNotifier<List<Journal>> {
 
   void updateJournal(Journal journal) async {
     try {
-      await ref.watch(journalDatabaseProvider).updateJournal(journal);
+      await ref.read(journalDatabaseProvider).updateJournal(journal);
       int index = state.indexWhere((element) => element.id == journal.id);
       state[index] = journal;
     } catch (error) {
@@ -60,7 +61,7 @@ class JournalProvider extends StateNotifier<List<Journal>> {
 
   void deleteJournal(String id) async {
     try {
-      await ref.watch(journalDatabaseProvider).deleteJournal(id);
+      await ref.read(journalDatabaseProvider).deleteJournal(id);
       state = [
         for (final journal in state)
           if (journal.id != id) journal,

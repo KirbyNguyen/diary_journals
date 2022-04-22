@@ -168,7 +168,7 @@ class JournalInfoPage extends HookConsumerWidget {
                       Navigator.of(context).pop();
                     }
                   },
-                )
+                ),
               ],
             ),
           ),

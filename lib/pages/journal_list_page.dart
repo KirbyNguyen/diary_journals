@@ -1,3 +1,5 @@
+import 'package:diary_journals/controllers/entry_controller.dart';
+import 'package:diary_journals/pages/entry_list_page.dart';
 import 'package:diary_journals/pages/journal_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -97,7 +99,19 @@ class JournalListPage extends ConsumerWidget {
               ],
             ),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                ref
+                    .watch(entryController.notifier)
+                    .entryInit(ref.watch(journalController)[index].id);
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => EntryListPage(
+                      journal: ref.watch(journalController)[index],
+                    ),
+                  ),
+                );
+              },
               child: ListTile(
                 trailing: ref.watch(journalController)[index].isPrivate == 1
                     ? Icon(

@@ -4,7 +4,7 @@ import 'package:diary_journals/models/entry.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:diary_journals/databases/database_helper.dart';
 
-final entrydatabaseProvider =
+final entryDatabaseProvider =
     ChangeNotifierProvider<EntryDatabaseHelper>((ref) {
   return EntryDatabaseHelper();
 });
@@ -18,12 +18,36 @@ class EntryDatabaseHelper with ChangeNotifier {
     );
   }
 
+  Future<List<Map<String, Object?>>> getAllJournalEntry(
+      String journalId) async {
+    final Database? database = await DatabaseHelper.instance.database;
+    return await database!.query(
+      DatabaseHelper.entryTableName,
+      where: "journalId = ?",
+      whereArgs: [journalId],
+    );
+  }
+
+
   Future<int> deleteEntry(String id) async {
     final Database? database = await DatabaseHelper.instance.database;
     int result = await database!.delete(
       DatabaseHelper.entryTableName,
       where: "id = ?",
       whereArgs: [id],
+    );
+
+    notifyListeners();
+
+    return result;
+  }
+
+  Future<int> deleteAllJournalEntry(String journalId) async {
+    final Database? database = await DatabaseHelper.instance.database;
+    int result = await database!.delete(
+      DatabaseHelper.entryTableName,
+      where: 'journalId = ?',
+      whereArgs: [journalId],
     );
 
     notifyListeners();
@@ -52,7 +76,7 @@ class EntryDatabaseHelper with ChangeNotifier {
     return result;
   }
 
-  Future<int> updateJournal(Entry entry) async {
+  Future<int> updateEntry(Entry entry) async {
     final Database? database = await DatabaseHelper.instance.database;
     int result = await database!.update(
       DatabaseHelper.entryTableName,

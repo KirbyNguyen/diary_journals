@@ -1,3 +1,4 @@
+import 'package:diary_journals/controllers/journal_controller.dart';
 import 'package:diary_journals/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,6 +34,7 @@ class SettingsPage extends HookConsumerWidget {
                 ),
                 onTap: () {
                   ref.watch(userController.notifier).logoutUser();
+                  ref.watch(journalController.notifier).journalEmpty();
                   Navigator.of(context).pop();
                 },
               ),
